@@ -7,6 +7,9 @@ import model.Circle;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainAgario extends JFrame {
 
@@ -17,8 +20,10 @@ public class MainAgario extends JFrame {
     private static final long serialVersionUID = 1L;
     private final Field field;
     private Controller controller;
+    ExecutorService mainService;
 
     public MainAgario() {
+        mainService = Executors.newCachedThreadPool();
         controller = new Controller(this);
         LoginView loginWindow = new LoginView(this);
         loginWindow.setVisible(true);
@@ -43,14 +48,16 @@ public class MainAgario extends JFrame {
         paintGame(controller.getAvatar(), controller.getGame().getFood());
     }
 
-    private void paintGame(Circle circle, ArrayList<Circle> food) {
+    private void paintGame(Circle circle, CopyOnWriteArrayList<Circle> food) {
         // Add player with socket
         this.field.setFocusable(false);
         this.setIgnoreRepaint(false);
         this.add((Component) this.field);
 
-        ThreadRepaint repaint = new ThreadRepaint(field);
-        repaint.start();
+        mainService.execute(new ThreadRepaint(field));
+
+        /*ThreadRepaint repaint = new ThreadRepaint(field);
+        repaint.start();*/
     }
 
 

@@ -10,10 +10,8 @@ public class LoginView extends JFrame implements ActionListener {
     public static final String LOGIN = "Login";
     public static final String GO_REGISTRER = "Go registrer";
     public boolean loginCorrect;
-    private JLabel lbTitle;
-    private JTextField txtName;
-    private JButton butLogin;
-    private MainAgario connection;
+    private final JTextField txtName;
+    private final MainAgario connection;
 
     public LoginView(MainAgario connection) {
 
@@ -24,13 +22,13 @@ public class LoginView extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        lbTitle = new JLabel("Choose your nickname:", SwingConstants.CENTER);
+        JLabel lbTitle = new JLabel("Choose your nickname:", SwingConstants.CENTER);
         lbTitle.setFont(new java.awt.Font("Calibri", 1, 26));
 
         txtName = new JTextField();
         txtName.setFont(new java.awt.Font("Calibri", 1, 18));
 
-        butLogin = new JButton("Login");
+        JButton butLogin = new JButton("Login");
         butLogin.setFont(new java.awt.Font("Calibri", 1, 18));
         butLogin.setActionCommand(LOGIN);
         butLogin.addActionListener(this);

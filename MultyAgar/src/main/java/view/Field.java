@@ -6,6 +6,7 @@ import model.Game;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Field extends Canvas {
 
@@ -79,7 +80,7 @@ public class Field extends Canvas {
 
     }
 
-    public void paintPlayer(ArrayList<Circle> circles, Graphics g) {
+    public void paintPlayer(CopyOnWriteArrayList<Circle> circles, Graphics g) {
 
         for (int i = 0; i < circles.size(); i++) {
             try {
@@ -102,7 +103,7 @@ public class Field extends Canvas {
         }
     }
 
-    public void paintFood(ArrayList<Circle> food, Graphics g) {
+    public void paintFood(CopyOnWriteArrayList<Circle> food, Graphics g) {
         for (int i = 0; i < food.size(); i++) {
 
             Circle f = food.get(i);
@@ -115,7 +116,7 @@ public class Field extends Canvas {
         }
     }
 
-    private void paintLeaderBoard(ArrayList<Circle> top, Graphics g) {
+    private void paintLeaderBoard(CopyOnWriteArrayList<Circle> top, Graphics g) {
 
         g.setColor(Color.DARK_GRAY);
         g.setFont(new Font("Ubuntu", Font.ITALIC, 18));

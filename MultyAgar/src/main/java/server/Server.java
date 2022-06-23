@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
@@ -37,14 +40,22 @@ public class Server {
         game = new Game();
         int connectedGamers = 0;
 
-        ThreadInitialize th = new ThreadInitialize(this.game);
-        th.start();
+        ExecutorService service = Executors.newCachedThreadPool();
+
+        service.execute(new ThreadInitialize(this.game));
+
+        /*ThreadInitialize th = new ThreadInitialize(this.game);
+        th.start();*/
 
         while (connectedGamers < Game.MAX_PLAYERS) {
             Socket socket;
             socket = serverSocket.accept();
-            AssignPort assign = new AssignPort(socket, this);
-            assign.start();
+
+            service.execute(new AssignPort(socket, this));
+
+            /*AssignPort assign = new AssignPort(socket, this);
+            assign.start();*/
+
             connectedGamers++;
         }
     }
@@ -103,7 +114,7 @@ public class Server {
 
     public String sendBaseGame() {
 
-        ArrayList<Circle> gamers = game.getAvatars();
+        CopyOnWriteArrayList<Circle> gamers = game.getAvatars();
         String message = "";
 
         for (int i = 0; i < gamers.size(); i++) {
@@ -130,7 +141,7 @@ public class Server {
 
         message += "_";
 
-        ArrayList<Circle> food = game.getFood();
+        CopyOnWriteArrayList<Circle> food = game.getFood();
 
         for (int i = 0; i < food.size(); i++) {
 

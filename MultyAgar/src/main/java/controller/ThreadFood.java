@@ -7,7 +7,7 @@ import javax.swing.*;
 
 
 public class ThreadFood extends Thread {
-    private Game game;
+    private final Game game;
 
     public ThreadFood(Game game) {
         this.game = game;
@@ -20,8 +20,7 @@ public class ThreadFood extends Thread {
     @Override
     public void run() {
 
-        //TODO use Timer
-        Timer timer = new Timer(1500, e-> addFood());
+        Timer timer = new Timer(1500, e -> addFood());
         timer.start();
 
         /*while (game.isRunning()) {
@@ -35,7 +34,7 @@ public class ThreadFood extends Thread {
         }*/
     }
 
-    private void addFood(){
+    private void addFood() {
         game.getFood().add(new Circle());
     }
 }

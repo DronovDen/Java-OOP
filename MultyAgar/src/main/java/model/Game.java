@@ -6,6 +6,9 @@ import controller.ThreadFood;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Game implements Serializable {
 
@@ -13,16 +16,18 @@ public class Game implements Serializable {
     public final static Long TIME_START = (long) 600000;
     public final static Long TIME_OUT = (long) 60000;
     public final static int MIN_PLAYERS = 2;
-    public final static int MAX_PLAYERS = 2;
+    public final static int MAX_PLAYERS = 3;
     private static final long serialVersionUID = 1L;
-    private ArrayList<Circle> food;
-    private ArrayList<Circle> circles;
+    private final ExecutorService gameService;
+    private CopyOnWriteArrayList<Circle> food;
+    private CopyOnWriteArrayList<Circle> circles;
     private boolean isRunning;
     private boolean timeout;
 
     public Game() {
-        this.food = new ArrayList<Circle>();
-        this.circles = new ArrayList<Circle>();
+        this.gameService = Executors.newCachedThreadPool();
+        this.food = new CopyOnWriteArrayList<Circle>();
+        this.circles = new CopyOnWriteArrayList<Circle>();
         isRunning = false;
         timeout = false;
         initializeFood();
@@ -32,11 +37,14 @@ public class Game implements Serializable {
         isRunning = true;
         timeout = false;
 
-        ThreadFood f = new ThreadFood(this);
-        f.start();
+        gameService.execute(new ThreadFood(this));
+        gameService.execute(new ThreadCollision(this));
 
-        ThreadCollision c = new ThreadCollision(this);
-        c.start();
+        /*ThreadFood f = new ThreadFood(this);
+        f.start();*/
+
+        /*ThreadCollision c = new ThreadCollision(this);
+        c.start();*/
     }
 
     public void initializeFood() {
@@ -107,11 +115,11 @@ public class Game implements Serializable {
         this.isRunning = isOn;
     }
 
-    public ArrayList<Circle> getFood() {
+    public CopyOnWriteArrayList<Circle> getFood() {
         return food;
     }
 
-    public ArrayList<Circle> getAvatars() {
+    public CopyOnWriteArrayList<Circle> getAvatars() {
         return circles;
     }
 
@@ -134,9 +142,9 @@ public class Game implements Serializable {
 
     }*/
 
-    public ArrayList<Circle> getTop() {
+    public CopyOnWriteArrayList<Circle> getTop() {
 
-        ArrayList<Circle> top = new ArrayList<>();
+        CopyOnWriteArrayList<Circle> top = new CopyOnWriteArrayList<>();
         top = circles;
         top.sort(new Comparator<Circle>() {
             @Override
@@ -165,13 +173,16 @@ public class Game implements Serializable {
         return report;
     }*/
 
-    public void initializeWorld(ArrayList<Circle> players, ArrayList<Circle> food) {
+    public void initializeWorld(CopyOnWriteArrayList<Circle> players, CopyOnWriteArrayList<Circle> food) {
         this.circles = players;
         this.food = food;
     }
 
-    public void updateWorld(ArrayList<Circle> players, ArrayList<Circle> food, int id) {
+    public void updateWorld(CopyOnWriteArrayList<Circle> players, CopyOnWriteArrayList<Circle> food, int id) {
         Circle local = null;
+
+        /*Iterator i = list.iterator(); i.hasNext();
+        Circle circle : this.circles*/
 
         for (Circle circle : this.circles) {
             if (circle.getId() == id) {
