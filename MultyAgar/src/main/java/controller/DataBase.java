@@ -3,15 +3,12 @@ package controller;
 import model.Game;
 import model.Player;
 
-
 import java.io.*;
 import java.util.ArrayList;
 
 public class DataBase {
-    //public final static int FOOD_RADIUS = 10;
     public final static String USERS_PATH = "src/main/resources/data/users.txt";
     public final static String GAME_PATH = "src/main/resources/data/game.txt";
-    //public final static String GAME_USER_PATH = "./resources/data/userGame.txt";
     private static ArrayList<Player> players = new ArrayList<Player>();
 
     public static void main(String[] args) {
@@ -29,14 +26,6 @@ public class DataBase {
             e.printStackTrace();
         }
     }
-
-    /*public static void registerUser(String nickname, String password, String email) {
-        readUsers();
-        //Player usr = new Player(nickname, password, email);
-        Player usr = new Player(nickname);
-        players.add(usr);
-        saveUsers();
-    }*/
 
     public static void registerUser(String nickname) {
         readUsers();
@@ -66,20 +55,9 @@ public class DataBase {
             oos.close();
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
-    /*public static boolean validateLogin(String emailToCheck, String password) {
-        readUsers();
-        boolean correct = false;
-        for (int i = 0; i < players.size(); i++) {
-            Player compare = players.get(i);
-            if (compare.getEmail().equals(emailToCheck) && compare.getPassword().equals(password)) {
-                correct = true;
-            }
-        }
-        return correct;
-    }*/
 
     public static boolean validateLogin(String nickNameToCheck) {
         readUsers();
@@ -92,33 +70,5 @@ public class DataBase {
         }
         return correct;
     }
-
-    /*public static String findNickName(String email) {
-
-        readUsers();
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getEmail().equals(email)) {
-                return players.get(i).getNickname();
-            }
-        }
-        return "";
-    }*/
-
-/*    public Game loadGame() {
-
-        Game game = null;
-        try {
-            InputStream file = new FileInputStream(GAME_PATH);
-            InputStream buffer = new BufferedInputStream(file);
-            ObjectInput input = new ObjectInputStream(buffer);
-
-            game = (Game) input.readObject();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return game;
-    }*/
 
 }

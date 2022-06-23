@@ -1,18 +1,17 @@
 package controller;
 
-import client.ClientPlay;
 import client.ClientLogin;
-import view.MainAgario;
+import client.ClientPlay;
 import model.Circle;
 import model.Game;
 import server.Server;
+import view.MainAgarIO;
 
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,17 +21,16 @@ public class Controller {
     // public final static String SERVER_ADDRESS = "172.30.174.251";
 
     public final static String SERVER_ADDRESS = "localHost";
-
-    private Socket socket;
     private final Game game;
+    private final MainAgarIO mainAgario;
+    private final ExecutorService controllerService;
+    private Socket socket;
     private boolean correctLogin;
     private String nickName;
     private int id;
-    private final MainAgario mainAgario;
-    private final ExecutorService controllerService;
 
 
-    public Controller(MainAgario mainAgario) {
+    public Controller(MainAgarIO mainAgario) {
 
         this.controllerService = Executors.newCachedThreadPool();
         this.mainAgario = mainAgario;
@@ -71,11 +69,6 @@ public class Controller {
         ClientLogin cls = new ClientLogin(this, nickName, x);
     }
 
-    /*public void register(String mail, String password, String nickname) {
-        int x = portRequest(Server.LOGIN);
-        Client_Login_Signin cls = new Client_Login_Signin(this, mail, nickname, x);
-    }*/
-
     public void startGame() {
         int portNum = portRequest(Server.PLAY);
         controllerService.execute(new ClientPlay(this, portNum));
@@ -85,7 +78,7 @@ public class Controller {
     }
 
     private CopyOnWriteArrayList<Circle> readPlayers(String[] infoPlayers) {
-        CopyOnWriteArrayList<Circle> players = new CopyOnWriteArrayList <Circle>();
+        CopyOnWriteArrayList<Circle> players = new CopyOnWriteArrayList<Circle>();
 
         for (String infoPlayer : infoPlayers) {
 
@@ -115,21 +108,14 @@ public class Controller {
         return players;
     }
 
-    private CopyOnWriteArrayList <Circle> readFood(String[] infoBalls) {
-        CopyOnWriteArrayList <Circle> food = new CopyOnWriteArrayList <Circle>();
+    private CopyOnWriteArrayList<Circle> readFood(String[] infoBalls) {
+        CopyOnWriteArrayList<Circle> food = new CopyOnWriteArrayList<Circle>();
 
         for (String infoBall : infoBalls) {
             String[] ballInfo = infoBall.split("/");
             int rgb = Integer.parseInt(ballInfo[0]);
             double posX = Double.parseDouble(ballInfo[1]);
             double posY = Double.parseDouble(ballInfo[2]);
-
-            /*try {
-                posX = Double.parseDouble(ballInfo[1]);
-                posY = Double.parseDouble(ballInfo[2]);
-            } catch (Exception e) {
-            }*/
-
             Circle bl = new Circle();
             bl.setColor(new Color(rgb));
             bl.setPosX(posX);
@@ -140,7 +126,7 @@ public class Controller {
     }
 
     public void updateWorld(String[] infoPlayers, String[] infoBalls) {
-        CopyOnWriteArrayList <Circle> players = readPlayers(infoPlayers);
+        CopyOnWriteArrayList<Circle> players = readPlayers(infoPlayers);
         if (players != null) {
             game.updateWorld(players, readFood(infoBalls), this.id);
         }

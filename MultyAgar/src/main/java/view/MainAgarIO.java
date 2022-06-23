@@ -6,12 +6,11 @@ import model.Circle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainAgario extends JFrame {
+public class MainAgarIO extends JFrame {
 
     public static final int WINDOW_WIDTH = 1920;
     public static final int WINDOW_HEIGHT = 1080;
@@ -19,10 +18,10 @@ public class MainAgario extends JFrame {
     public static final int WINDOW_POS_Y = 50;
     private static final long serialVersionUID = 1L;
     private final Field field;
-    private Controller controller;
     ExecutorService mainService;
+    private Controller controller;
 
-    public MainAgario() {
+    public MainAgarIO() {
         mainService = Executors.newCachedThreadPool();
         controller = new Controller(this);
         LoginView loginWindow = new LoginView(this);
@@ -31,7 +30,7 @@ public class MainAgario extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainAgario m = new MainAgario();
+        MainAgarIO m = new MainAgarIO();
         m.setVisible(false);
     }
 

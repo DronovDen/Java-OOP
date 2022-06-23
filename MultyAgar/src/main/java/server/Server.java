@@ -8,7 +8,6 @@ import model.Game;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -68,27 +67,9 @@ public class Server {
         }
     }
 
-    /*public void signIn(String nickname, String email, String password) {
-        //DataBase.registerUser(nickname, password, email);
-        DataBase.registerUser(nickname);
-    }*/
-
     public void signIn(String nickname) {
         DataBase.registerUser(nickname);
     }
-
-    /*public int validateLogin(String email, String password) {
-        boolean log = DataBase.validateLogin(email, password);
-        if (log) {
-            gamersNum++;
-            int id = nextId();
-            game.addAvatar(findNickname(email), id);
-            System.out.println("gamers: " + gamersNum);
-            return id;
-        } else {
-            return -1;
-        }
-    }*/
 
     public int validateLogin(String name) {
         boolean log = DataBase.validateLogin(name);
@@ -102,10 +83,6 @@ public class Server {
             return -1;
         }
     }
-
-    /*private String findNickname(String email) {
-        return DataBase.findNickName(email);
-    }*/
 
     public int nextId() {
         int id_ = game.getIdAvailable();

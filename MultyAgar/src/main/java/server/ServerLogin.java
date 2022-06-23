@@ -29,37 +29,16 @@ public class ServerLogin {
 
             String key = (String) is.readObject();
 
-            /*if (key.equals(Server.LOGIN)) {
-                login(is, os);
-            }*/
-
             if (key.equals(Server.SIGN_IN)) {
                 signIn(is, os);
             }
 
             socket.close();
             s.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
-    /*private void login(ObjectInputStream is, ObjectOutputStream os) throws Exception {
-        int log;
-        String nickname = (String) is.readObject();
-        System.out.println("nickname: " + nickname);
-
-        log = server.validateLogin(nickname);
-
-        if (log >= 0) {
-            os.writeObject(Server.LOGIN_OK);
-            os.writeObject(log + "");
-        } else {
-            os.writeObject(Server.LOGIN_INCORRECT);
-        }
-        os.flush();
-    }*/
 
     public void signIn(ObjectInputStream is, ObjectOutputStream os) throws Exception {
         String nickname = (String) is.readObject();

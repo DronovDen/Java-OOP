@@ -19,19 +19,8 @@ public class ThreadFood extends Thread {
      */
     @Override
     public void run() {
-
         Timer timer = new Timer(1500, e -> addFood());
         timer.start();
-
-        /*while (game.isRunning()) {
-            game.getFood().add(new Avatar());
-            try {
-                sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }*/
     }
 
     private void addFood() {

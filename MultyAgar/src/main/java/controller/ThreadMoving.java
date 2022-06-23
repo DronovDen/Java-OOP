@@ -6,10 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ThreadMoving extends Thread {
-    
-    private static final int INTERVALO = 100;
 
-    private int id;
+    private final int id;
     private final Game game;
     private double xFinal, yFinal;
 
@@ -24,16 +22,6 @@ public class ThreadMoving extends Thread {
     public void run() {
         Timer moveRate = new Timer(100, e->update());
         moveRate.start();
-
-        /*while (game.getAvatar(id) != null && game.getAvatars().size() > 1 && game.isRunning()) {
-                this.updateMousePosition();
-                game.move(xFinal, yFinal, id);
-            try {
-                Thread.sleep(INTERVALO);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     private void update(){

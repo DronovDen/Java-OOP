@@ -5,7 +5,6 @@ import model.Game;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Field extends Canvas {
@@ -43,7 +42,7 @@ public class Field extends Canvas {
         // Paint background
         g.setColor(new Color(220, 220, 220));
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, MainAgario.WINDOW_WIDTH, MainAgario.WINDOW_HEIGHT);
+        g.fillRect(0, 0, MainAgarIO.WINDOW_WIDTH, MainAgarIO.WINDOW_HEIGHT);
         g.setColor(new Color(220, 220, 220));
 
         int space = 40;
@@ -58,18 +57,9 @@ public class Field extends Canvas {
             this.paintPlayer(game.getAvatars(), g);
         }
 
-        /*if (game.getFood() == null) {
-            System.out.println("food null");
-        }*/
-
         // Paint Food
         if (game.getFood() != null) {
             this.paintFood(game.getFood(), g);
-            /*try {
-                this.paintFood(game.getFood(), g);
-            } catch (Exception e) {
-                Logger.getLogger(Field.class.getName()).log(Level.SEVERE, null, e);
-            }*/
         }
 
         // Paint Leader board
@@ -82,37 +72,23 @@ public class Field extends Canvas {
 
     public void paintPlayer(CopyOnWriteArrayList<Circle> circles, Graphics g) {
 
-        for (int i = 0; i < circles.size(); i++) {
-            try {
-                Circle a = circles.get(i);
-                render(g, 1, a);
+        for (Circle circle : circles) {
+            render(g, 1, circle);
+            double x = circle.getPosX();
+            double y = circle.getPosY();
+            double r = circle.getRadius();
+            g.setFont(new Font("Ubuntu", Font.BOLD, (int) r / 2));
+            FontMetrics metrics = g.getFontMetrics(g.getFont());
+            int xt = (int) x - metrics.stringWidth(circle.getNickName()) / 2;
+            int yt = (int) (y + r / 4);
+            g.drawString(circle.getNickName(), xt, yt);
 
-                double x = a.getPosX();
-                double y = a.getPosY();
-                double r = a.getRadius();
-                g.setFont(new Font("Ubuntu", Font.BOLD, (int) r / 2));
-                FontMetrics metrics = g.getFontMetrics(g.getFont());
-                int xt = (int) x - metrics.stringWidth(a.getNickName()) / 2;
-                int yt = (int) (y + r / 4);
-                g.drawString(a.getNickName(), xt, yt);
-
-            } catch (Exception e) {
-                System.out.print("Problem in paintPlayer");
-                e.printStackTrace();
-            }
         }
     }
 
     public void paintFood(CopyOnWriteArrayList<Circle> food, Graphics g) {
-        for (int i = 0; i < food.size(); i++) {
-
-            Circle f = food.get(i);
+        for (Circle f : food) {
             render(g, 1, f);
-
-            /*catch (Exception e) {
-                System.out.print("Problem in paintFood");
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -140,13 +116,8 @@ public class Field extends Canvas {
         gra.drawString(this.message, (int) dimPanel.getWidth() / 2 - 250, (int) dimPanel.getHeight() / 2 - 40);
     }
 
-    /*public String getMessage() {
-        return message;
-    }*/
-
     public void setMessage(String message) {
         this.message = message;
     }
 
 }
-

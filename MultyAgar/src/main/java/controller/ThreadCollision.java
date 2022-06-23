@@ -12,18 +12,10 @@ public class ThreadCollision extends Thread {
         this.game = game;
     }
 
+    @Override
     public void run() {
         Timer timer = new Timer(100, e -> checkCollisions());
         timer.start();
-
-        /*while (game.isRunning()) {
-            try {
-                checkCollisions();
-                sleep(100);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     public void checkCollisions() {

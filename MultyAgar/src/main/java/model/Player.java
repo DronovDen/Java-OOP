@@ -9,7 +9,6 @@ public class Player implements Serializable {
 
     private final String nickname;
 
-
     public Player(String nickname) {
         this.nickname = nickname;
     }

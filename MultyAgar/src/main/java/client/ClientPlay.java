@@ -9,8 +9,6 @@ import java.net.Socket;
 
 public class ClientPlay extends Thread {
 
-    //public final static String PATH = "./resources/data/userGame.txt";
-
     private final Controller controller;
     private Socket socket;
 

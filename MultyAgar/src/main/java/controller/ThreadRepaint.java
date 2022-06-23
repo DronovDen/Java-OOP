@@ -15,29 +15,8 @@ public class ThreadRepaint extends Thread {
 
     @Override
     public void run() {
-
         Timer t = new Timer(150, e -> repaint());
         t.start();
-
-        /*Timer ti = new Timer(150, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(control){
-                    repaint();
-                }
-            }
-        });
-        ti.start();*/
-
-
-    /*    while (control) {
-            try {
-                this.space.repaint();
-                sleep(150);
-            } catch (Exception ex) {
-                System.out.println("Error in repaint");
-            }
-        }*/
     }
 
 

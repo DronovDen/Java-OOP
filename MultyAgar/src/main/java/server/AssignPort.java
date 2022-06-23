@@ -42,9 +42,10 @@ public class AssignPort extends Thread {
                         spg.start();
                     }
 
-                    if (key.equals(Server.OBSERVE)) {
+                    /*if (key.equals(Server.OBSERVE)) {
                         out.writeUTF(Server.PORT_STREAMING + "");
-                    }
+                    }*/
+
                 }
             } catch (IOException ex) {
                 control = false;

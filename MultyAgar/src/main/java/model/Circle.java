@@ -1,6 +1,6 @@
 package model;
 
-import view.MainAgario;
+import view.MainAgarIO;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ public class Circle implements Serializable {
     public static final int INIT_SPEED = 1;
     public static final int MAX_COLOR = 256;
     private static final long serialVersionUID = 1L;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     private String nickName;
     private double posX;
@@ -24,26 +24,26 @@ public class Circle implements Serializable {
     private int id;
 
     public Circle() {
-        this.posX = random.nextInt(MainAgario.WINDOW_WIDTH - 15) + 15;
-        this.posY = random.nextInt(MainAgario.WINDOW_HEIGHT - 15) + 15;
+        this.posX = random.nextInt(MainAgarIO.WINDOW_WIDTH - 15) + 15;
+        this.posY = random.nextInt(MainAgarIO.WINDOW_HEIGHT - 15) + 15;
         this.avatar = false;
         this.alive = true;
         radius = 5;
-        set_color();
+        setColor();
     }
 
     public Circle(String nickName, int id) {
-        this.posX = random.nextInt(MainAgario.WINDOW_WIDTH - 15) + 15;
-        this.posY = random.nextInt(MainAgario.WINDOW_HEIGHT - 15) + 15;
+        this.posX = random.nextInt(MainAgarIO.WINDOW_WIDTH - 15) + 15;
+        this.posY = random.nextInt(MainAgarIO.WINDOW_HEIGHT - 15) + 15;
         this.avatar = true;
         this.alive = true;
         this.id = id;
         this.nickName = nickName;
-        set_color();
+        setColor();
         this.radius = 15;
     }
 
-    public void set_color() {
+    public void setColor() {
         int r = random.nextInt(MAX_COLOR);
         int g = random.nextInt(MAX_COLOR);
         int b = random.nextInt(MAX_COLOR);
@@ -78,8 +78,8 @@ public class Circle implements Serializable {
     }
 
     public void checkCollision(Circle other) {
-        boolean c = collision(other);
-        if (c == true && other != null) {
+        boolean collide = collision(other);
+        if (collide) {
             this.radius += (other.getRadius() / 3);
             other.setAlive(false);
         }
@@ -99,14 +99,6 @@ public class Circle implements Serializable {
 
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    public boolean isAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(boolean avatar) {
-        this.avatar = avatar;
     }
 
     public boolean isAlive() {

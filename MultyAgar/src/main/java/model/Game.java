@@ -123,25 +123,6 @@ public class Game implements Serializable {
         return circles;
     }
 
-    /*public void render(Graphics g, double scale) {
-        for (int i = 0; i < avatars.size(); i++) {
-            Field.render(g, scale, avatars.get(i));
-        }
-        Avatar avatar = avatars.get(0);
-        if (avatar != null) {
-            double x = avatar.getPosX();
-            double y = avatar.getPosY();
-            int r = (int) avatar.getRadius();
-            Font font = new Font("Calibri", Font.BOLD, r / 2);
-            FontMetrics metrics = g.getFontMetrics(font);
-            int xt = (int) x - metrics.stringWidth(avatar.getNickName()) / 2;
-            int yt = (int) (y + r / 4);
-            g.setFont(font);
-            g.drawString(avatar.getNickName(), xt, yt);
-        }
-
-    }*/
-
     public CopyOnWriteArrayList<Circle> getTop() {
 
         CopyOnWriteArrayList<Circle> top = new CopyOnWriteArrayList<>();
@@ -162,17 +143,6 @@ public class Game implements Serializable {
         }
     }
 
-    /*public String reportScores() {
-
-        String report = "";
-
-        for (int i = 0; i < getTop().size(); i++) {
-            DecimalFormat df = new DecimalFormat("#.##");
-            report += (i + 1) + ".  " + getTop().get(i).getNickName() + " " + df.format(getTop().get(i).getRadius()) + "\r\n";
-        }
-        return report;
-    }*/
-
     public void initializeWorld(CopyOnWriteArrayList<Circle> players, CopyOnWriteArrayList<Circle> food) {
         this.circles = players;
         this.food = food;
@@ -180,9 +150,6 @@ public class Game implements Serializable {
 
     public void updateWorld(CopyOnWriteArrayList<Circle> players, CopyOnWriteArrayList<Circle> food, int id) {
         Circle local = null;
-
-        /*Iterator i = list.iterator(); i.hasNext();
-        Circle circle : this.circles*/
 
         for (Circle circle : this.circles) {
             if (circle.getId() == id) {

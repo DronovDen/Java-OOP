@@ -9,11 +9,11 @@ public class LoginView extends JFrame implements ActionListener {
 
     public static final String LOGIN = "Login";
     public static final String GO_REGISTRER = "Go registrer";
-    public boolean loginCorrect;
     private final JTextField txtName;
-    private final MainAgario connection;
+    private final MainAgarIO connection;
+    public boolean loginCorrect;
 
-    public LoginView(MainAgario connection) {
+    public LoginView(MainAgarIO connection) {
 
         this.connection = connection;
         this.loginCorrect = false;
@@ -64,5 +64,4 @@ public class LoginView extends JFrame implements ActionListener {
             }
         }
     }
-
 }
