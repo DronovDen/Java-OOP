@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import controller.ThreadRepaint;
 import model.Circle;
+import threadpool.CustomThreadPool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +19,13 @@ public class MainAgarIO extends JFrame {
     public static final int WINDOW_POS_Y = 50;
     private static final long serialVersionUID = 1L;
     private final Field field;
-    ExecutorService mainService;
+    //ExecutorService mainService;
+    private final CustomThreadPool mainService;
     private Controller controller;
 
     public MainAgarIO() {
-        mainService = Executors.newCachedThreadPool();
+        //mainService = Executors.newCachedThreadPool();
+        mainService = new CustomThreadPool(1);
         controller = new Controller(this);
         LoginView loginWindow = new LoginView(this);
         loginWindow.setVisible(true);
@@ -53,7 +56,12 @@ public class MainAgarIO extends JFrame {
         this.setIgnoreRepaint(false);
         this.add((Component) this.field);
 
-        mainService.execute(new ThreadRepaint(field));
+        try {
+            mainService.execute(new ThreadRepaint(field));
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         /*ThreadRepaint repaint = new ThreadRepaint(field);
         repaint.start();*/

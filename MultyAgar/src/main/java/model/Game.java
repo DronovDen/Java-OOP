@@ -2,13 +2,12 @@ package model;
 
 import controller.ThreadCollision;
 import controller.ThreadFood;
+import threadpool.CustomThreadPool;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Game implements Serializable {
 
@@ -18,14 +17,16 @@ public class Game implements Serializable {
     public final static int MIN_PLAYERS = 2;
     public final static int MAX_PLAYERS = 3;
     private static final long serialVersionUID = 1L;
-    private final ExecutorService gameService;
+    //private final ExecutorService gameService;
+    private final CustomThreadPool threadPool;
     private CopyOnWriteArrayList<Circle> food;
     private CopyOnWriteArrayList<Circle> circles;
     private boolean isRunning;
     private boolean timeout;
 
     public Game() {
-        this.gameService = Executors.newCachedThreadPool();
+        //this.gameService = Executors.newCachedThreadPool();
+        this.threadPool = new CustomThreadPool(2);
         this.food = new CopyOnWriteArrayList<Circle>();
         this.circles = new CopyOnWriteArrayList<Circle>();
         isRunning = false;
@@ -37,8 +38,15 @@ public class Game implements Serializable {
         isRunning = true;
         timeout = false;
 
-        gameService.execute(new ThreadFood(this));
-        gameService.execute(new ThreadCollision(this));
+        try {
+            threadPool.execute(new ThreadFood(this));
+            threadPool.execute(new ThreadCollision(this));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //gameService.execute(new ThreadFood(this));
+        //gameService.execute(new ThreadCollision(this));
 
         /*ThreadFood f = new ThreadFood(this);
         f.start();*/

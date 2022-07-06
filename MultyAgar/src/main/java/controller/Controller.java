@@ -5,6 +5,7 @@ import client.ClientPlay;
 import model.Circle;
 import model.Game;
 import server.Server;
+import threadpool.CustomThreadPool;
 import view.MainAgarIO;
 
 import java.awt.*;
@@ -13,8 +14,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Controller {
     public final static int PORT = 8000; //tcp port
@@ -23,7 +22,8 @@ public class Controller {
     public final static String SERVER_ADDRESS = "localHost";
     private final Game game;
     private final MainAgarIO mainAgario;
-    private final ExecutorService controllerService;
+    //private final ExecutorService controllerService;
+    private final CustomThreadPool threadPool;
     private Socket socket;
     private boolean correctLogin;
     private String nickName;
@@ -32,7 +32,8 @@ public class Controller {
 
     public Controller(MainAgarIO mainAgario) {
 
-        this.controllerService = Executors.newCachedThreadPool();
+        //this.controllerService = Executors.newCachedThreadPool();
+        this.threadPool = new CustomThreadPool(2);
         this.mainAgario = mainAgario;
         this.correctLogin = false;
         this.game = new Game();
@@ -71,7 +72,13 @@ public class Controller {
 
     public void startGame() {
         int portNum = portRequest(Server.PLAY);
-        controllerService.execute(new ClientPlay(this, portNum));
+        try{
+            threadPool.execute(new ClientPlay(this, portNum));
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        //controllerService.execute(new ClientPlay(this, portNum));
 
         /*ClientPlay clientPlayThread = new ClientPlay(this, portNum);
         clientPlayThread.start();*/
@@ -145,7 +152,14 @@ public class Controller {
     }
 
     public void startMoving() {
-        controllerService.execute(new ThreadMoving(id, this.game));
+        //controllerService.execute(new ThreadMoving(id, this.game));
+
+        try {
+            threadPool.execute(new ThreadMoving(id, this.game));
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         /*ThreadMoving m = new ThreadMoving(id, this.game);
         m.start();*/

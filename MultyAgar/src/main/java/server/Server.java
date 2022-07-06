@@ -4,6 +4,7 @@ import controller.DataBase;
 import controller.ThreadInitialize;
 import model.Circle;
 import model.Game;
+import threadpool.CustomThreadPool;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -32,28 +33,22 @@ public class Server {
     private final Game game;
     private int gamersNum;
 
-    public Server() throws IOException {
+    public Server() throws IOException, InterruptedException {
         System.out.println("****** Server online ******");
         ServerSocket serverSocket = new ServerSocket(PORT_CONNECTION);
 
         game = new Game();
         int connectedGamers = 0;
 
-        ExecutorService service = Executors.newCachedThreadPool();
+        CustomThreadPool service = new CustomThreadPool(Game.MAX_PLAYERS + 1);
 
         service.execute(new ThreadInitialize(this.game));
-
-        /*ThreadInitialize th = new ThreadInitialize(this.game);
-        th.start();*/
 
         while (connectedGamers < Game.MAX_PLAYERS) {
             Socket socket;
             socket = serverSocket.accept();
 
             service.execute(new AssignPort(socket, this));
-
-            /*AssignPort assign = new AssignPort(socket, this);
-            assign.start();*/
 
             connectedGamers++;
         }
@@ -62,7 +57,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             Server s = new Server();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
