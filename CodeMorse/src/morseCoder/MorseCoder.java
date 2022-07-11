@@ -17,15 +17,15 @@ abstract class MorseCoder {
 
     public MorseCoder(String inputFileName) {
         try {
-            Path inPath = Paths.get(System.getProperty("user.dir"), "src", inputFileName);
+            Path inPath = Paths.get(System.getProperty("user.dir"), "resources", inputFileName);
             File inputFile = new File(inPath.normalize().toString());
             this.inputFile = new BufferedReader(new FileReader(inputFile));
 
-            Path outPath = Paths.get(System.getProperty("user.dir"), "src", "out.txt");
+            Path outPath = Paths.get(System.getProperty("user.dir"), "resources", "out.txt");
             File outFile = new File(outPath.normalize().toString());
             this.outputStream = new PrintStream(outFile);
 
-            Path statPath = Paths.get(System.getProperty("user.dir"), "src", "statistics.txt");
+            Path statPath = Paths.get(System.getProperty("user.dir"), "resources", "statistics.txt");
             File statFile = new File(statPath.normalize().toString());
             this.statisticStream = new PrintStream(statFile);
 

@@ -9,7 +9,6 @@ public class Main {
 }
 
 
-
 //TreeSet хранит внутри себя TreeMap - хорошо для сортировки
 //TreeSet быстрее, если много коллизий по hashCode в случе HashSet
 

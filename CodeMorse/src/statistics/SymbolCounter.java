@@ -28,13 +28,13 @@ public class SymbolCounter {
 
     @Override
     public boolean equals(Object other) {
-        if(this == other) {
+        if (this == other) {
             return true;
         }
 
         //ЛУЧШЕ ИСПОЛЬЗОВАТЬ getClass()!!!!
         //instanceof не значит принадлежность к одному классу!
-        if(other.getClass() != SymbolCounter.class){
+        if (other.getClass() != SymbolCounter.class) {
             return false;
         }
 
@@ -43,7 +43,7 @@ public class SymbolCounter {
         }*/
 
         SymbolCounter otherSymb = (SymbolCounter) other;
-        if(symbol == otherSymb.symbol){
+        if (symbol == otherSymb.symbol) {
             otherSymb.increaseFreq();
             return true;
         }

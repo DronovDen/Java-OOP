@@ -18,11 +18,14 @@ public class MapLoader {
     private final Map<String, String> encodeAlphabet = new HashMap<>();
     private final Map<String, String> decodeAlphabet = new HashMap<>();
 
-    public MapLoader(String alphabetFileName){
+    public MapLoader(String alphabetFileName) {
         try {
-            Path inPath = Paths.get(System.getProperty("user.dir"), "src", alphabetFileName);
+            Path inPath = Paths.get(System.getProperty("user.dir"), "resources", alphabetFileName);
             File alphabetFile = new File(inPath.normalize().toString());
             BufferedReader alphabetReader = new BufferedReader(new FileReader(alphabetFile));
+            //BEST SOLUTION OF PATHS AND FILES PROBLEM!
+            //Path p = Paths.get(alphabetFileName).toAbsolutePath();
+            //BufferedReader br = new BufferedReader(new FileReader(p.toFile()));
             while (true) {
                 String str = alphabetReader.readLine();
                 if (str == null) break;
@@ -32,17 +35,16 @@ public class MapLoader {
                 encodeAlphabet.put(normChar, morseChar);
                 decodeAlphabet.put(morseChar, normChar);
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Map<String, String> getEncodeMap(){
+    public Map<String, String> getEncodeMap() {
         return encodeAlphabet;
     }
 
-    public Map<String, String> getDecodeMap(){
+    public Map<String, String> getDecodeMap() {
         return decodeAlphabet;
     }
 

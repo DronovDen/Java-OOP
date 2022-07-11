@@ -28,7 +28,7 @@ public class CommandParser {
             parseCommand();
         }
         //How to check existing of file????
-        Path path = Paths.get(System.getProperty("user.dir"), "src", inputFile);
+        Path path = Paths.get(System.getProperty("user.dir"), "resources", inputFile);
         File file = new File(path.toString());
         if (!file.exists()) {
             System.out.println("No such file!");
